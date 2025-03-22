@@ -31,14 +31,14 @@ const Start = () => {
 
         {/* Our Products Card - Entire card is clickable */}
         <Card
-          className="w-60 h-72 flex flex-col items-center shadow-xl rounded-2xl cursor-pointer transition-transform hover:scale-105"
+          className="w-70 h-120 flex flex-col items-center shadow-xl rounded-2xl cursor-pointer transition-transform hover:scale-105"
           onClick={() => window.location.href = "https://healthify-next-js-ecommerce.vercel.app/"}
         >
           <Image
-            src="/our-products.png" // Replace with actual image path
+            src="/product.png" // Replace with actual image path
             alt="Our Products"
-            width={240}
-            height={130}
+            width={220}
+            height={10}
             className="rounded-t-2xl"
           />
           <CardContent className="text-center font-semibold text-lg mt-2">
