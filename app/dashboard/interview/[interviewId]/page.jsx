@@ -38,13 +38,13 @@ function Interview({ params: paramsPromise }) {
             <>
               <div className='flex flex-col p-5 rounded-lg border gap-5'>
                 <h2 className='text-lg'>
-                  <strong>Health Problem:</strong> {interviewData.jobPosition}
+                  <strong>Health Problem:</strong> {interviewData.cause}
                 </h2>
                 <h2 className='text-lg'>
-                  <strong>A short Description:</strong> {interviewData.jobDesc}
+                  <strong>A short Description:</strong> {interviewData.Desc}
                 </h2>
                 <h2 className='text-lg'>
-                  <strong>Number of days suffering it from:</strong> {interviewData.jobExperience}
+                  <strong>Number of days suffering it from:</strong> {interviewData.Days}
                 </h2>
               </div>
               <div className='p-5 border rounded-lg border-yellow-300 bg-yellow-100'>

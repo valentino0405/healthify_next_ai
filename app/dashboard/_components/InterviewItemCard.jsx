@@ -16,8 +16,8 @@ function InterviewItemCard({ interview }) {
 
     return (
         <div className='border shadow-sm rounded-lg p-3'>
-            <h2 className='font-bold text-primary'>{interview?.jobPosition}</h2>
-            <h2 className='text-sm text-gray-600'>Number of Days suffering it from:{interview?.jobExperience}</h2>
+            <h2 className='font-bold text-primary'>{interview?.cause}</h2>
+            <h2 className='text-sm text-gray-600'>Number of Days suffering it from:{interview?.Days}</h2>
             <h2 className='text-xs text-gray-400'>Created At:{interview.createdAt}</h2>
         <div className='flex justify-between mt-2 gap-5'>
             <Button size="sm" variant="outline" className=""

@@ -23,9 +23,9 @@ import { MockInterview } from '@/utils/schema';
 
 function AddNewInterview() {
     const [openDialog, setOpenDialog] = useState(false);
-    const [jobPosition, setJobPosition] = useState("");
-    const [jobDesc, setJobDesc] = useState("");
-    const [jobExperience, setJobExperience] = useState("");
+    const [cause, setCause] = useState(""); // Renamed from jobPosition
+    const [Desc, setDesc] = useState(""); // Renamed from jobDesc
+    const [Days, setDays] = useState(""); // Renamed from jobExperience
     const [loading, setLoading] = useState(false);
     const [jsonResponse, setJsonResponse] = useState([]);
     const { user } = useUser();
@@ -34,12 +34,12 @@ function AddNewInterview() {
     const onSubmit = async (e) => {
         setLoading(true);
         e.preventDefault();
-        console.log("Input Data:", { jobPosition, jobDesc, jobExperience });
+        console.log("Input Data:", { cause, Desc, Days });
 
         const InputPrompt = `
-            Health Problem: ${jobPosition}, 
-            Description: ${jobDesc}, 
-            Days Experiencing: ${jobExperience}. 
+            Health Problem: ${cause}, 
+            Description: ${Desc}, 
+            Days Experiencing: ${Days}. 
             Based on this information, please generate ${process.env.NEXT_PUBLIC_HEALTH_SOLUTION_COUNT} solutions in JSON format. 
             The JSON should have a "Possible Cause" field explaining potential reasons for the issue 
             and a "Recommended Action" field suggesting steps for relief or further medical consultation.
@@ -50,32 +50,26 @@ function AddNewInterview() {
             let responseText = await result.response.text();
             console.log("Raw Response:", responseText);
 
-            // Clean up potential Markdown formatting from AI response
             responseText = responseText.replace(/```json/, "").replace(/```/, "").trim();
-
-            // Parse the response into JSON
             let parsedResponse = JSON.parse(responseText);
             console.log("Parsed JSON Response:", parsedResponse);
 
-            // Ensure it's an array
             if (!Array.isArray(parsedResponse)) {
-                parsedResponse = [parsedResponse]; // Wrap in an array if not already one
+                parsedResponse = [parsedResponse];
             }
 
-            // Set state
             setJsonResponse(parsedResponse);
 
             if (parsedResponse.length > 0) {
                 console.log("Final JSON Before Saving:", JSON.stringify(parsedResponse, null, 2));
 
-                // Insert into database with proper JSON format
                 const resp = await db.insert(MockInterview)
                     .values({
                         mockId: uuidv4(),
-                        jsonMockResp: JSON.stringify(parsedResponse), // Ensure valid JSON format
-                        jobPosition,
-                        jobDesc,
-                        jobExperience,
+                        jsonMockResp: JSON.stringify(parsedResponse),
+                        cause,
+                        Desc,
+                        Days,
                         createdBy: user?.primaryEmailAddress?.emailAddress,
                         createdAt: moment().format('DD-MM-yyyy'),
                     }).returning({ mockId: MockInterview.mockId });
@@ -119,7 +113,7 @@ function AddNewInterview() {
                                         <Input 
                                             placeholder="Ex. Headache, Stomach pain, Rashes, Fever" 
                                             required
-                                            onChange={(event) => setJobPosition(event.target.value)}
+                                            onChange={(event) => setCause(event.target.value)}
                                         />
                                     </div>
 
@@ -129,7 +123,7 @@ function AddNewInterview() {
                                             placeholder="Ex. Frequent headaches, nausea, etc." 
                                             max="100" 
                                             required
-                                            onChange={(event) => setJobDesc(event.target.value)}
+                                            onChange={(event) => setDesc(event.target.value)}
                                         />
                                     </div>
 
@@ -138,7 +132,7 @@ function AddNewInterview() {
                                         <Input 
                                             placeholder="Ex. 5" 
                                             required
-                                            onChange={(event) => setJobExperience(event.target.value)}
+                                            onChange={(event) => setDays(event.target.value)}
                                         />
                                     </div>
                                 </div>
